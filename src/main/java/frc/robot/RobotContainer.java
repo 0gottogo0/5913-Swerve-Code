@@ -5,8 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -46,11 +46,8 @@ public class RobotContainer {
 
     // reset the field-centric heading on left bumper press
     // set num to button
-    joystick.button(7).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+    joystick.button(7).onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-    if (Utils.isSimulation()) {
-      drivetrain.seedFieldRelative(new Pose2d(new Translation2d(), Rotation2d.fromDegrees(90)));
-    }
     drivetrain.registerTelemetry(logger::telemeterize);
   }
 
