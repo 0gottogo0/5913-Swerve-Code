@@ -62,10 +62,15 @@ public class TunerConstants {
 
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
-    private static final double kCoupleRatio = 3.5714285714285716;
+    private static final double kCoupleRatio = 3.5714285714285716; //TODO: this might also be diffrent for the MK4n's but I didn't see any info on this
 
-    private static final double kDriveGearRatio = 6.122448979591837;
-    private static final double kSteerGearRatio = 12.8;
+    private static final double kDriveGearRatio_MK4i = 6.12;
+    private static final double kDriveGearRatio_MK4n = 5.36;
+
+    private static final double kSteerGearRatio_MK4i = 150/7;
+    private static final double kSteerGearRatio_MK4n = 18.75;
+
+
     private static final double kWheelRadiusInches = 3.75;
 
     private static final boolean kInvertLeftSide = false;
@@ -87,9 +92,9 @@ public class TunerConstants {
             .withPigeon2Id(kPigeonId)
             .withPigeon2Configs(pigeonConfigs);
 
-    private static final SwerveModuleConstantsFactory ConstantCreator = new SwerveModuleConstantsFactory()
-            .withDriveMotorGearRatio(kDriveGearRatio)
-            .withSteerMotorGearRatio(kSteerGearRatio)
+    private static final SwerveModuleConstantsFactory ConstantCreator_MK4i = new SwerveModuleConstantsFactory()
+            .withDriveMotorGearRatio(kDriveGearRatio_MK4i)
+            .withSteerMotorGearRatio(kSteerGearRatio_MK4i)
             .withWheelRadius(kWheelRadiusInches)
             .withSlipCurrent(kSlipCurrentA)
             .withSteerMotorGains(steerGains)
@@ -106,6 +111,10 @@ public class TunerConstants {
             .withDriveMotorInitialConfigs(driveInitialConfigs)
             .withSteerMotorInitialConfigs(steerInitialConfigs)
             .withCANcoderInitialConfigs(cancoderInitialConfigs);
+
+    private static final SwerveModuleConstantsFactory ConstantCreator_MK4n = ConstantCreator_MK4i
+            .withDriveMotorGearRatio(kDriveGearRatio_MK4n) //overiding theses values from MK4i
+            .withSteerMotorGearRatio(kSteerGearRatio_MK4n);
 
 
     // Front Left
@@ -154,22 +163,22 @@ public class TunerConstants {
     private static final double kBackRightYPosInches = -11.25;
 
 
-    private static final SwerveModuleConstants FrontLeft = ConstantCreator.createModuleConstants(
+    private static final SwerveModuleConstants FrontLeft = ConstantCreator_MK4n.createModuleConstants(
             kFrontLeftSteerMotorId, kFrontLeftDriveMotorId, kFrontLeftEncoderId, kFrontLeftEncoderOffset, 
             Units.inchesToMeters(kFrontLeftXPosInches), Units.inchesToMeters(kFrontLeftYPosInches), 
             kInvertLeftSide, kFrontLeftSteerInvert, kFrontLeftCANcoderInverted
             );
-    private static final SwerveModuleConstants FrontRight = ConstantCreator.createModuleConstants(
+    private static final SwerveModuleConstants FrontRight = ConstantCreator_MK4n.createModuleConstants(
             kFrontRightSteerMotorId, kFrontRightDriveMotorId, kFrontRightEncoderId, kFrontRightEncoderOffset, 
             Units.inchesToMeters(kFrontRightXPosInches), Units.inchesToMeters(kFrontRightYPosInches), 
             kInvertRightSide, kFrontRightSteerInvert, kFrontRightCANcoderInverted
             );
-    private static final SwerveModuleConstants BackLeft = ConstantCreator.createModuleConstants(
+    private static final SwerveModuleConstants BackLeft = ConstantCreator_MK4i.createModuleConstants(
             kBackLeftSteerMotorId, kBackLeftDriveMotorId, kBackLeftEncoderId, kBackLeftEncoderOffset, 
             Units.inchesToMeters(kBackLeftXPosInches), Units.inchesToMeters(kBackLeftYPosInches), 
             kInvertLeftSide, kBackLeftSteerInvert, kBackLeftCANcoderInverted
             );
-    private static final SwerveModuleConstants BackRight = ConstantCreator.createModuleConstants(
+    private static final SwerveModuleConstants BackRight = ConstantCreator_MK4i.createModuleConstants(
             kBackRightSteerMotorId, kBackRightDriveMotorId, kBackRightEncoderId, kBackRightEncoderOffset, 
             Units.inchesToMeters(kBackRightXPosInches), Units.inchesToMeters(kBackRightYPosInches), 
             kInvertRightSide, kBackRightSteerInvert, kBackRightCANcoderInverted
